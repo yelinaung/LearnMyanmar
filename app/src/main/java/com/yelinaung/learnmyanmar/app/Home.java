@@ -16,6 +16,7 @@
 
 package com.yelinaung.learnmyanmar.app;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +25,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class Home extends ActionBarActivity {
 
@@ -69,6 +72,13 @@ public class Home extends ActionBarActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
       View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        Window w = getActivity().getWindow(); // in Activity's onCreate() for instance
+        w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      }
       return rootView;
     }
   }
