@@ -14,28 +14,38 @@
  * limitations under the License.
  */
 
-package com.yelinaung.learnmyanmar.app;
+package com.yelinaung.learnmyanmar.app.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.yelinaung.learnmyanmar.app.R;
+import com.yelinaung.learnmyanmar.app.db.Category;
+import java.util.ArrayList;
+
+import static com.yelinaung.learnmyanmar.app.utils.LogUtils.LOGD;
+import static com.yelinaung.learnmyanmar.app.utils.LogUtils.makeLogTag;
 
 /**
  * Created by Ye Lin Aung on 14/05/03.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
-  ActionBar actionBar;
+  ArrayList<String> mList = new ArrayList<String>();
+
+  @InjectView(R.id.listview) ListView mListView;
+
+  private static String TAG = makeLogTag(HomeFragment.class);
 
   public HomeFragment() {
   }
@@ -49,16 +59,25 @@ public class HomeFragment extends Fragment {
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-    actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#330000ff")));
-    actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#550000ff")));
+    ButterKnife.inject(this, rootView);
+
+    actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      Window w = getActivity().getWindow();
+      w = getActivity().getWindow();
       w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
           WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
       w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
           WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
+
+    LOGD(TAG, "All words ➞ " + mWordDao.getAll().size());
+
+    CategoryAdapter mAdapter = new CategoryAdapter(mContext, R.layout.row_category,
+        (ArrayList<Category>) mCategoryDao.getAllNames());
+    mListView.setAdapter(mAdapter);
+
     return rootView;
   }
 
@@ -66,8 +85,9 @@ public class HomeFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
   }
 
-  @Override public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    actionBar = ((ActionBarActivity) activity).getSupportActionBar();
+  public class CategoryAdapter extends ArrayAdapter<Category> {
+    public CategoryAdapter(Context context, int resource, ArrayList<Category> objects) {
+      super(context, resource, objects);
+    }
   }
 }
