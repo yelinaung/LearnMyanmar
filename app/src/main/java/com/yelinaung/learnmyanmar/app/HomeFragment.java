@@ -16,23 +16,58 @@
 
 package com.yelinaung.learnmyanmar.app;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * Created by Ye Lin Aung on 14/05/03.
  */
 public class HomeFragment extends Fragment {
+
+  ActionBar actionBar;
+
   public HomeFragment() {
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+    actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#330000ff")));
+    actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#550000ff")));
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      Window w = getActivity().getWindow();
+      w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+          WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+      w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+          WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
     return rootView;
+  }
+
+  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+  }
+
+  @Override public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    actionBar = ((ActionBarActivity) activity).getSupportActionBar();
   }
 }
