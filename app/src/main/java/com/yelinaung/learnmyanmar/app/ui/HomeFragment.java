@@ -16,7 +16,9 @@
 
 package com.yelinaung.learnmyanmar.app.ui;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -25,27 +27,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.yelinaung.learnmyanmar.app.R;
 import com.yelinaung.learnmyanmar.app.db.Category;
 import java.util.ArrayList;
 
-import static com.yelinaung.learnmyanmar.app.utils.LogUtils.LOGD;
-import static com.yelinaung.learnmyanmar.app.utils.LogUtils.makeLogTag;
-
 /**
  * Created by Ye Lin Aung on 14/05/03.
  */
 public class HomeFragment extends BaseFragment {
 
-  ArrayList<String> mList = new ArrayList<String>();
-
   @InjectView(R.id.listview) ListView mListView;
-
-  private static String TAG = makeLogTag(HomeFragment.class);
 
   public HomeFragment() {
   }
@@ -72,11 +69,19 @@ public class HomeFragment extends BaseFragment {
           WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
-    LOGD(TAG, "All words ➞ " + mWordDao.getAll().size());
-
     CategoryAdapter mAdapter = new CategoryAdapter(mContext, R.layout.row_category,
-        (ArrayList<Category>) mCategoryDao.getAllNames());
+        (ArrayList<Category>) mCategoryDao.getAll());
     mListView.setAdapter(mAdapter);
+
+    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent i = new Intent(mContext, WordActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle b = ActivityOptions.makeCustomAnimation(mContext, R.anim.slide_in_left,
+            R.anim.slide_out_left).toBundle();
+        mContext.startActivity(i, b);
+      }
+    });
 
     return rootView;
   }
@@ -86,8 +91,40 @@ public class HomeFragment extends BaseFragment {
   }
 
   public class CategoryAdapter extends ArrayAdapter<Category> {
+
+    private ArrayList<Category> mCategories = new ArrayList<Category>();
+
     public CategoryAdapter(Context context, int resource, ArrayList<Category> objects) {
       super(context, resource, objects);
+      this.mCategories = objects;
+    }
+
+    @Override public View getView(int position, View convertView, ViewGroup parent) {
+      final ViewHolder holder;
+      View vi = convertView;
+      if (vi == null || vi.getTag() == null) {
+        LayoutInflater inflater =
+            (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        vi = inflater.inflate(R.layout.row_category, null);
+        holder = new ViewHolder(vi);
+        assert vi != null;
+        vi.setTag(holder);
+      } else {
+        holder = (ViewHolder) vi.getTag();
+      }
+
+      holder.mCategoryName.setText(null);
+      holder.mCategoryName.setText(mCategories.get(position).name);
+
+      return vi;
+    }
+
+    class ViewHolder {
+      @InjectView(R.id.category_text) TextView mCategoryName;
+
+      ViewHolder(View view) {
+        ButterKnife.inject(this, view);
+      }
     }
   }
 }

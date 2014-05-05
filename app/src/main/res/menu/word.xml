@@ -14,16 +14,12 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-  <ListView
-      android:id="@+id/listview"
-      android:fitsSystemWindows="true"
-      android:scrollbarStyle="insideInset"
-      android:layout_marginLeft="10dp"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
-
-</RelativeLayout>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.yelinaung.learnmyanmar.app.ui.WordActivity" >
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>

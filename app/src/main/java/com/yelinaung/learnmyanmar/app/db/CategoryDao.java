@@ -59,16 +59,6 @@ public class CategoryDao {
     return null;
   }
 
-
-  public List<Category> getAllNames() {
-    try {
-      return mCategoryDao.queryBuilder().selectColumns("name").query();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
   public void deleteAllStories() throws SQLException {
     TableUtils.clearTable(source, Category.class);
   }

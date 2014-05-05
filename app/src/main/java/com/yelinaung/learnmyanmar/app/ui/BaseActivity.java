@@ -16,49 +16,39 @@
 
 package com.yelinaung.learnmyanmar.app.ui;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 import com.yelinaung.learnmyanmar.app.db.CategoryDao;
 import com.yelinaung.learnmyanmar.app.db.WordDao;
+import com.yelinaung.learnmyanmar.app.utils.SharePref;
 
 /**
- * Created by Ye Lin Aung on 14/05/04.
+ * Created by Ye Lin Aung on 14/05/05.
  */
-public abstract class BaseFragment extends Fragment {
 
-  protected ActionBar actionBar;
-  protected CategoryDao mCategoryDao;
+public abstract class BaseActivity extends ActionBarActivity {
+
   protected WordDao mWordDao;
-  protected Context mContext;
-  protected Window w;
+  protected CategoryDao mCategoryDao;
+  protected SharePref sharePref;
+  protected ActionBar actionBar;
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mContext = getActivity().getApplicationContext();
-    mCategoryDao = new CategoryDao(mContext);
-    mWordDao = new WordDao(mContext);
-    w = getActivity().getWindow();
+    getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+    actionBar = getSupportActionBar();
+    sharePref = SharePref.getInstance(BaseActivity.this);
+    mCategoryDao = new CategoryDao(BaseActivity.this);
+    mWordDao = new WordDao(BaseActivity.this);
   }
 
-  @Override
-  public void onStart() {
+  @Override protected void onStart() {
     super.onStart();
-    //EasyTracker.getInstance().activityStart(this);
   }
 
-  @Override
-  public void onStop() {
-    super.onStop();
-    //EasyTracker.getInstance().activityStop(this);
-  }
-
-  @Override public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    actionBar = ((ActionBarActivity) activity).getSupportActionBar();
+  @Override protected void onResume() {
+    super.onResume();
   }
 }

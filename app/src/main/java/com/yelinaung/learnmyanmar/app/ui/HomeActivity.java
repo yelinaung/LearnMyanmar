@@ -17,25 +17,17 @@
 package com.yelinaung.learnmyanmar.app.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 import com.yelinaung.learnmyanmar.app.R;
 import com.yelinaung.learnmyanmar.app.db.Category;
-import com.yelinaung.learnmyanmar.app.db.CategoryDao;
 import com.yelinaung.learnmyanmar.app.db.Word;
-import com.yelinaung.learnmyanmar.app.db.WordDao;
-import com.yelinaung.learnmyanmar.app.utils.SharePref;
 
-public class HomeActivity extends ActionBarActivity {
-
-  WordDao mWordDao;
-  CategoryDao mCategoryDao;
-  SharePref sharePref;
+public class HomeActivity extends BaseActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+
     setContentView(R.layout.activity_home);
 
     if (savedInstanceState == null) {
@@ -43,11 +35,6 @@ public class HomeActivity extends ActionBarActivity {
           .add(R.id.container, new HomeFragment())
           .commit();
     }
-
-    sharePref = SharePref.getInstance(HomeActivity.this);
-
-    mCategoryDao = new CategoryDao(HomeActivity.this);
-    mWordDao = new WordDao(HomeActivity.this);
 
     if (sharePref.isFirstTime()) {
       for (int i = 0; i < getResources().getStringArray(R.array.categories).length; i++) {
