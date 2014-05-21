@@ -17,7 +17,6 @@
 package com.yelinaung.learnmyanmar.app.ui;
 
 import android.os.Bundle;
-import android.view.Window;
 import com.yelinaung.learnmyanmar.app.R;
 import com.yelinaung.learnmyanmar.app.db.Category;
 import com.yelinaung.learnmyanmar.app.db.Word;

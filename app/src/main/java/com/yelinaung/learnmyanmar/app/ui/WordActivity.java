@@ -1,6 +1,8 @@
 package com.yelinaung.learnmyanmar.app.ui;
 
 import android.app.Fragment;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +20,9 @@ public class WordActivity extends BaseActivity {
 
     actionBar.setHomeButtonEnabled(true);
     actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    actionBar.setTitle(R.string.app_name);
 
     if (savedInstanceState == null) {
       getFragmentManager().beginTransaction()
@@ -39,8 +44,9 @@ public class WordActivity extends BaseActivity {
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
-    if (id == R.id.action_settings) {
-      return true;
+    switch (id) {
+      case android.R.id.home:
+        onBackPressed();
     }
     return super.onOptionsItemSelected(item);
   }
