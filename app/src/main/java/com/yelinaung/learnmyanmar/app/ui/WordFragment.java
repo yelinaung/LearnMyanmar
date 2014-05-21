@@ -16,8 +16,115 @@
 
 package com.yelinaung.learnmyanmar.app.ui;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.yelinaung.learnmyanmar.app.R;
+import com.yelinaung.learnmyanmar.app.db.Word;
+import java.util.ArrayList;
+
+import static com.yelinaung.learnmyanmar.app.utils.LogUtils.makeLogTag;
+
 /**
  * Created by Ye Lin Aung on 14/05/06.
  */
-public class WordFragment {
+public class WordFragment extends BaseFragment {
+
+  @InjectView(R.id.list_view) ListView mListView;
+
+  private static String TAG = makeLogTag(WordFragment.class);
+
+  public WordFragment() {
+  }
+
+  public static WordFragment newInstance(String mCategoryId) {
+    WordFragment f = new WordFragment();
+    Bundle bdl = new Bundle(1);
+    bdl.putString("mCategoryId", mCategoryId);
+    f.setArguments(bdl);
+    return f;
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View rootView = inflater.inflate(R.layout.fragment_word, container, false);
+
+    ButterKnife.inject(this, rootView);
+
+    ButterKnife.inject(this, rootView);
+
+    actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      w = getActivity().getWindow();
+      w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+          WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+      w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+          WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+
+    String mCategoryId = getArguments().getString("mCategoryId");
+
+    mListView.setAdapter(
+        new WordAdapter(mContext, (ArrayList<Word>) mWordDao.getWordsByCategoryId(mCategoryId)));
+
+    return rootView;
+  }
+
+  public class WordAdapter extends ArrayAdapter<Word> {
+
+    private ArrayList<Word> mWords = new ArrayList<Word>();
+
+    public WordAdapter(Context context, ArrayList<Word> objects) {
+      super(context, R.layout.row_word, objects);
+      this.mWords = objects;
+    }
+
+    @Override public View getView(int position, View convertView, ViewGroup parent) {
+      final ViewHolder holder;
+      View vi = convertView;
+      if (vi == null || vi.getTag() == null) {
+        LayoutInflater inflater =
+            (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        vi = inflater.inflate(R.layout.row_word, null);
+        holder = new ViewHolder(vi);
+        assert vi != null;
+        vi.setTag(holder);
+      } else {
+        holder = (ViewHolder) vi.getTag();
+      }
+
+      holder.mEngWord.setText(mWords.get(position).enWord);
+      holder.mPronunciation.setText(mWords.get(position).mPronunciation);
+      holder.mMMWord.setText(mWords.get(position).mmWord);
+
+      return vi;
+    }
+
+    class ViewHolder {
+      @InjectView(R.id.eng_word) TextView mEngWord;
+      @InjectView(R.id.pronunciation) TextView mPronunciation;
+      @InjectView(R.id.mm_word) TextView mMMWord;
+
+      ViewHolder(View view) {
+        ButterKnife.inject(this, view);
+      }
+    }
+  }
 }

@@ -27,16 +27,19 @@ public class Word {
   @DatabaseField(generatedId = true) public int id;
   @DatabaseField public String categoryId;
   @DatabaseField public String wordId;
-  @DatabaseField public String mmText;
-  @DatabaseField public String enText;
+  @DatabaseField public String mmWord;
+  @DatabaseField public String mPronunciation;
+  @DatabaseField public String enWord;
 
   public Word() {
   }
 
-  public Word(String categoryId, String wordId, String mmText, String enText) {
+  public Word(String categoryId, String wordId, String mmWord, String enWord,
+      String mPronunciation) {
     this.categoryId = categoryId;
     this.wordId = wordId;
-    this.mmText = mmText;
-    this.enText = enText;
+    this.mmWord = mmWord;
+    this.mPronunciation = mPronunciation;
+    this.enWord = enWord;
   }
 }

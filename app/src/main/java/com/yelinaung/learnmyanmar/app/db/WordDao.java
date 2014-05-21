@@ -18,6 +18,7 @@ package com.yelinaung.learnmyanmar.app.db;
 
 import android.content.Context;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
@@ -53,6 +54,16 @@ public class WordDao {
   public List<Word> getAll() {
     try {
       return mWordDao.queryForAll();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public List<Word> getWordsByCategoryId(String catId) {
+    QueryBuilder<Word, Integer> qb = mWordDao.queryBuilder();
+    try {
+      return qb.where().eq("categoryId", catId).query();
     } catch (SQLException e) {
       e.printStackTrace();
     }

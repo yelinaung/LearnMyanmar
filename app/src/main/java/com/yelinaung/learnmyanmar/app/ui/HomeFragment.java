@@ -16,7 +16,6 @@
 
 package com.yelinaung.learnmyanmar.app.ui;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,7 +41,8 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends BaseFragment {
 
-  @InjectView(R.id.listview) ListView mListView;
+  @InjectView(R.id.list_view) ListView mListView;
+  private ArrayList<Category> mCategories;
 
   public HomeFragment() {
   }
@@ -69,17 +69,19 @@ public class HomeFragment extends BaseFragment {
           WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
-    CategoryAdapter mAdapter = new CategoryAdapter(mContext, R.layout.row_category,
-        (ArrayList<Category>) mCategoryDao.getAll());
+    mCategories = (ArrayList<Category>) mCategoryDao.getAll();
+
+    CategoryAdapter mAdapter = new CategoryAdapter(mContext, R.layout.row_category, mCategories);
     mListView.setAdapter(mAdapter);
 
     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(mContext, WordActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Bundle b = ActivityOptions.makeCustomAnimation(mContext, R.anim.slide_in_left,
-            R.anim.slide_out_left).toBundle();
-        mContext.startActivity(i, b);
+        i.putExtra("mCategoryId", mCategories.get(position).category_id);
+        i.putExtra("mCategoryName", mCategories.get(position).name);
+
+        mContext.startActivity(i);
       }
     });
 

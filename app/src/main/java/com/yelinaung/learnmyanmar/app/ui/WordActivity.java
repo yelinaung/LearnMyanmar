@@ -1,32 +1,39 @@
 package com.yelinaung.learnmyanmar.app.ui;
 
-import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import com.yelinaung.learnmyanmar.app.R;
 
+import static com.yelinaung.learnmyanmar.app.utils.LogUtils.makeLogTag;
+
 public class WordActivity extends BaseActivity {
+
+  private static String TAG = makeLogTag(WordActivity.class);
+  private String categoryId;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_word);
 
+    overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+
     actionBar.setHomeButtonEnabled(true);
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    actionBar.setTitle(R.string.app_name);
+
+    if (getIntent().getExtras() != null) {
+      categoryId = getIntent().getExtras().getString("mCategoryId");
+      actionBar.setTitle(getIntent().getExtras().getString("mCategoryName"));
+    }
 
     if (savedInstanceState == null) {
-      getFragmentManager().beginTransaction()
-          .add(R.id.container, new PlaceholderFragment())
+      getSupportFragmentManager().beginTransaction()
+          .add(R.id.container, WordFragment.newInstance(categoryId))
           .commit();
     }
   }
@@ -53,22 +60,13 @@ public class WordActivity extends BaseActivity {
 
   @Override public void finish() {
     super.finish();
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
   }
 
-  /**
-   * A placeholder fragment containing a simple view.
-   */
-  public static class PlaceholderFragment extends Fragment {
-
-    public PlaceholderFragment() {
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
-      View rootView = inflater.inflate(R.layout.fragment_word, container, false);
-      return rootView;
-    }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    //closing transition animations
+    overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
   }
 }

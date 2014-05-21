@@ -40,14 +40,16 @@ public class HomeActivity extends BaseActivity {
         Category c = new Category();
         c.id = i;
         c.name = getResources().getStringArray(R.array.categories)[i];
+        c.category_id = getResources().getStringArray(R.array.categoryId)[i];
         mCategoryDao.create(c);
       }
 
       for (int i = 0; i < getResources().getStringArray(R.array.categoryId).length; i++) {
         Word w = new Word();
         w.categoryId = getResources().getStringArray(R.array.categoryId)[i];
-        w.enText = getResources().getStringArray(R.array.enText)[i];
-        w.mmText = getResources().getStringArray(R.array.mmText)[i];
+        w.enWord = getResources().getStringArray(R.array.enText)[i];
+        w.mPronunciation = getResources().getStringArray(R.array.pronunciation)[i];
+        w.mmWord = getResources().getStringArray(R.array.mmText)[i];
         mWordDao.create(w);
       }
 

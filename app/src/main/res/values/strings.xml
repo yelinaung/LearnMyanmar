@@ -6,4 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_word">WordActivity</string>
 
+  <string name="eng_word">Hello World</string>
+  <string name="pronunciation">Hello World</string>
+  <string name="mm_word">မင်္ဂလာပါ</string>
 </resources>
