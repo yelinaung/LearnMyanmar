@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Learn Myanmar</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_word">WordActivity</string>
+  <string name="app_name">Learn Myanmar</string>
+  <string name="hello_world">Hello world!</string>
+  <string name="action_settings">Settings</string>
+  <string name="title_activity_word">WordActivity</string>
 
   <string name="eng_word">Hello World</string>
   <string name="pronunciation">Hello World</string>
   <string name="mm_word">မင်္ဂလာပါ</string>
+
+  <string name="text_to_speech">Speak it</string>
 </resources>

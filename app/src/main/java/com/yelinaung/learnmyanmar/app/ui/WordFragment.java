@@ -21,11 +21,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -33,8 +35,7 @@ import butterknife.InjectView;
 import com.yelinaung.learnmyanmar.app.R;
 import com.yelinaung.learnmyanmar.app.db.Word;
 import java.util.ArrayList;
-
-import static com.yelinaung.learnmyanmar.app.utils.LogUtils.makeLogTag;
+import java.util.Locale;
 
 /**
  * Created by Ye Lin Aung on 14/05/06.
@@ -42,8 +43,6 @@ import static com.yelinaung.learnmyanmar.app.utils.LogUtils.makeLogTag;
 public class WordFragment extends BaseFragment {
 
   @InjectView(R.id.list_view) ListView mListView;
-
-  private static String TAG = makeLogTag(WordFragment.class);
 
   public WordFragment() {
   }
@@ -66,8 +65,6 @@ public class WordFragment extends BaseFragment {
 
     ButterKnife.inject(this, rootView);
 
-    ButterKnife.inject(this, rootView);
-
     actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -87,16 +84,18 @@ public class WordFragment extends BaseFragment {
     return rootView;
   }
 
-  public class WordAdapter extends ArrayAdapter<Word> {
+  public class WordAdapter extends ArrayAdapter<Word> implements TextToSpeech.OnInitListener {
 
     private ArrayList<Word> mWords = new ArrayList<Word>();
+    private TextToSpeech tts;
 
     public WordAdapter(Context context, ArrayList<Word> objects) {
       super(context, R.layout.row_word, objects);
       this.mWords = objects;
+      this.tts = new TextToSpeech(context, this);
     }
 
-    @Override public View getView(int position, View convertView, ViewGroup parent) {
+    @Override public View getView(final int position, View convertView, ViewGroup parent) {
       final ViewHolder holder;
       View vi = convertView;
       if (vi == null || vi.getTag() == null) {
@@ -113,14 +112,25 @@ public class WordFragment extends BaseFragment {
       holder.mEngWord.setText(mWords.get(position).enWord);
       holder.mPronunciation.setText(mWords.get(position).mPronunciation);
       holder.mMMWord.setText(mWords.get(position).mmWord);
+      holder.mTTS.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          // TODO make it configurable ?
+          tts.setLanguage(Locale.US);
+          tts.speak(mWords.get(position).mPronunciation, TextToSpeech.QUEUE_FLUSH, null);
+        }
+      });
 
       return vi;
+    }
+
+    @Override public void onInit(int status) {
     }
 
     class ViewHolder {
       @InjectView(R.id.eng_word) TextView mEngWord;
       @InjectView(R.id.pronunciation) TextView mPronunciation;
       @InjectView(R.id.mm_word) TextView mMMWord;
+      @InjectView(R.id.text_to_speech) ImageButton mTTS;
 
       ViewHolder(View view) {
         ButterKnife.inject(this, view);
