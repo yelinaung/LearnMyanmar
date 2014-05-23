@@ -19,18 +19,23 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:minHeight="?android:listPreferredItemHeight"
+    android:divider="?android:dividerVertical"
+    android:dividerPadding="8dp"
+    android:showDividers="middle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
   <LinearLayout
       android:orientation="vertical"
       android:layout_weight="10"
+      android:background="?android:selectableItemBackground"
       android:layout_width="0dp"
       android:layout_height="wrap_content">
     <TextView
         android:id="@+id/eng_word"
         android:text="@string/eng_word"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -38,7 +43,7 @@
     <TextView
         android:id="@+id/pronunciation"
         android:text="@string/pronunciation"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -46,7 +51,7 @@
     <TextView
         android:id="@+id/mm_word"
         android:text="@string/mm_word"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:paddingBottom="@dimen/small_padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -57,7 +62,7 @@
       android:id="@+id/text_to_speech"
       android:layout_weight="1"
       style="?android:borderlessButtonStyle"
-      android:src="@drawable/ic_action_volume_on"
+      android:src="@drawable/ic_action_volume_on_holodark"
       android:layout_width="@dimen/standard_touch_target_size"
       android:layout_height="match_parent"
       android:contentDescription="@string/text_to_speech"/>

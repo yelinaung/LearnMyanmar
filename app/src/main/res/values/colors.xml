@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2014 Ye Lin Aung
   ~
@@ -14,20 +15,6 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/theme_color"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-  <ListView
-      android:id="@+id/list_view"
-      android:fitsSystemWindows="true"
-      android:scrollbarStyle="insideInset"
-      android:divider="@android:color/white"
-      android:dividerHeight="1px"
-      android:layout_marginLeft="10dp"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
-
-</RelativeLayout>
+<resources>
+  <color name="theme_color">#34495e</color>
+</resources>
