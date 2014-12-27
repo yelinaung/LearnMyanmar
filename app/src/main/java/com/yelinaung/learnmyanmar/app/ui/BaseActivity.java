@@ -19,7 +19,6 @@ package com.yelinaung.learnmyanmar.app.ui;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Window;
 import com.yelinaung.learnmyanmar.app.db.CategoryDao;
 import com.yelinaung.learnmyanmar.app.db.WordDao;
 import com.yelinaung.learnmyanmar.app.utils.SharePref;
@@ -37,7 +36,6 @@ public abstract class BaseActivity extends ActionBarActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
     actionBar = getSupportActionBar();
     sharePref = SharePref.getInstance(BaseActivity.this);
     mCategoryDao = new CategoryDao(BaseActivity.this);

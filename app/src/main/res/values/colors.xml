@@ -16,5 +16,7 @@
   -->
 
 <resources>
-  <color name="theme_color">#34495e</color>
+  <color name="primary">#34495e</color>
+  <color name="primary_dark">#ff213141</color>
+  <color name="accent">#ff2488e0</color>
 </resources>
