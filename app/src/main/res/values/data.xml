@@ -21,12 +21,13 @@
   <string-array name="categories">
     <item>Greeting</item>
     <item>Dining</item>
+    <item>Travelling</item>
   </string-array>
 
   <string-array name="categoryId">
     <item>1</item>
-    <item>1</item>
-    <item>1</item>
+    <item>2</item>
+    <item>3</item>
   </string-array>
 
   <string-array name="mmText">

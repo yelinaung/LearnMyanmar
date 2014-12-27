@@ -96,6 +96,11 @@ public class HomeFragment extends BaseFragment {
 
     private ArrayList<Category> mCategories = new ArrayList<Category>();
 
+    /**
+     * @param context - Context;
+     * @param resource - layout of the List Adapter
+     * @param objects - ArrayList Categories
+     */
     public CategoryAdapter(Context context, int resource, ArrayList<Category> objects) {
       super(context, resource, objects);
       this.mCategories = objects;

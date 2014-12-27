@@ -1,27 +1,36 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion "19.1.0"
+  compileSdkVersion 21
+  buildToolsVersion "21.1.2"
 
   defaultConfig {
     minSdkVersion 16
-    targetSdkVersion 19
+    targetSdkVersion 21
     versionCode 1
     versionName "1.0"
   }
+
   buildTypes {
+
     release {
-      runProguard false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+      versionNameSuffix '-RELEASE'
+    }
+
+    debug {
+      versionNameSuffix '-DEBUG'
+    }
+
+    beta {
+      versionNameSuffix '-BETA'
     }
   }
 }
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:19.+'
-  compile 'com.android.support:support-v4:+'
+  compile 'com.android.support:appcompat-v7:21.0.3'
+  compile 'com.android.support:support-v4:21.0.3'
   compile 'com.jakewharton:butterknife:5.0.0'
   compile 'com.j256.ormlite:ormlite-android:4.47'
 }
